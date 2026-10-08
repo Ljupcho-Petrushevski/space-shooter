@@ -1,18 +1,407 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <title>Star Defender</title>
 <style>
-  html,body{margin:0;height:100%;background:#05060f;overflow:hidden;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#e8ecff;touch-action:none;user-select:none}
-  canvas{display:block;margin:0 auto;background:radial-gradient(ellipse at top,#121a3a 0%,#05060f 70%)}
-  #hud{position:fixed;top:10px;left:0;right:0;display:flex;justify-content:space-between;padding:0 16px;font-weight:600;font-size:16px;pointer-events:none;text-shadow:0 0 6px #4cf}
-  #overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:rgba(5,6,15,.7);padding:16px}
-  #overlay h1{font-size:clamp(32px,8vw,64px);margin:0 0 8px;letter-spacing:2px;background:linear-gradient(90deg,#4cf,#c6f);-webkit-background-clip:text;background-clip:text;color:transparent}
-  #overlay p{margin:6px 0;opacity:.85;max-width:420px}
-  button{margin-top:18px;font:inherit;font-size:20px;font-weight:700;padding:12px 32px;border:0;border-radius:999px;color:#05060f;background:linear-gradient(90deg,#4cf,#c6f);cursor:pointer}
+/* ---- design-tokens-lab (src/styles/tokens/*.css @ 1ce7fa9), copied verbatim. Edit there, then re-copy. ---- */
+@layer reset, tokens, base, components;
+/* GENERATED FILE — do not edit. Source: tokens.json. Run `npm run tokens`. */
+/*
+ * Primitive tokens: the raw palette and scales.
+ * Components must NOT use these directly — go through semantic.css.
+ * Rationale: primitives are "what values exist", semantics are "what they mean".
+ * Theming (dark mode, brands) swaps the semantic layer; primitives stay fixed.
+ */
+@layer tokens {
+  :root {
+  --color-gray-0: #ffffff;
+  --color-gray-50: #f7f7f8;
+  --color-gray-100: #eeeef0;
+  --color-gray-200: #dcdce1;
+  --color-gray-300: #c2c2ca;
+  --color-gray-400: #9a9aa6;
+  --color-gray-500: #71717f;
+  --color-gray-600: #52525e;
+  --color-gray-700: #3b3b45;
+  --color-gray-800: #26262d;
+  --color-gray-900: #161619;
+  --color-gray-1000: #0b0b0d;
+  --color-indigo-50: #f2f3fd;
+  --color-indigo-100: #e6e8fb;
+  --color-indigo-300: #a6adf2;
+  --color-indigo-500: #4f5be6;
+  --color-indigo-600: #3d48cc;
+  --color-indigo-700: #2f38a3;
+  --color-teal-100: #d9f5f0;
+  --color-teal-300: #7fd8c8;
+  --color-teal-500: #149c87;
+  --color-teal-600: #0f7f6e;
+  --color-teal-700: #0b6355;
+  --color-red-100: #fde8e8;
+  --color-red-300: #f4a3a3;
+  --color-red-500: #d92d2d;
+  --color-red-600: #b52424;
+  --color-red-700: #8f1c1c;
+  --color-amber-100: #fdf1d6;
+  --color-amber-300: #f5cf7a;
+  --color-amber-500: #d98c0a;
+  --color-amber-600: #b47308;
+  --color-amber-700: #8c5a06;
+  --color-green-100: #e1f5e6;
+  --color-green-300: #8fdba6;
+  --color-green-500: #1f9d4d;
+  --color-green-600: #187f3e;
+  --color-green-700: #12622f;
+  --color-sky-100: #e0f1fd;
+  --color-sky-300: #86c7f5;
+  --color-sky-500: #1a8ae0;
+  --color-sky-600: #146fb5;
+  --color-sky-700: #0f548a;
+  --color-rose-100: #fde6ef;
+  --color-rose-300: #f5a3c3;
+  --color-rose-500: #d9306e;
+  --color-rose-600: #b52459;
+  --color-rose-700: #8f1c46;
+  --color-orange-100: #fdeadb;
+  --color-orange-300: #f7b27f;
+  --color-orange-500: #e8641a;
+  --color-orange-600: #c25114;
+  --color-orange-700: #984010;
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --font-family-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-family-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2.25rem;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-leading-tight: 1.2;
+  --font-leading-normal: 1.5;
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  --shadow-xs: 0 1px 1px rgb(0 0 0 / 0.04);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.06);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.10);
+  --shadow-lg: 0 12px 32px rgb(0 0 0 / 0.16);
+  --duration-fast: 120ms;
+  --duration-normal: 200ms;
+  --duration-slow: 320ms;
+  --z-dropdown: 100;
+  --z-modal: 200;
+  --z-toast: 300;
+  }
+}
+
+/*
+ * Semantic tokens: what a value MEANS in the UI.
+ * These alias primitives. Components read ONLY these.
+ *
+ * Naming convention:  --<category>-<role>[-<state>]
+ *   --color-bg-surface, --color-fg-muted, --color-primary-hover
+ *
+ * Theming: the dark theme re-points the same names at different primitives.
+ * No component changes when a theme changes — that is the whole point.
+ *
+ * Brands live in brands.css and re-point a SUBSET of these (primary,
+ * secondary, radius, type). Density lives at the bottom of this file.
+ */
+@layer tokens {
+  :root {
+    color-scheme: light;
+
+    /* ---- Brand / action colours ---- */
+    --color-primary: var(--color-indigo-500);
+    --color-primary-hover: var(--color-indigo-600);
+    --color-primary-active: var(--color-indigo-700);
+    --color-primary-subtle: var(--color-indigo-100);
+    --color-primary-subtle-hover: var(--color-indigo-50);
+    --color-on-primary: var(--color-gray-0);
+
+    --color-secondary: var(--color-teal-500);
+    --color-secondary-hover: var(--color-teal-600);
+    --color-secondary-active: var(--color-teal-700);
+    --color-secondary-subtle: var(--color-teal-100);
+    --color-on-secondary: var(--color-gray-0);
+
+    /* Tertiary: the "extension point" from the first version, now real. */
+    --color-tertiary: var(--color-amber-500);
+    --color-tertiary-hover: var(--color-amber-600);
+    --color-tertiary-active: var(--color-amber-700);
+    --color-tertiary-subtle: var(--color-amber-100);
+    --color-on-tertiary: var(--color-gray-1000);
+
+    /* ---- Backgrounds (bg) and foregrounds (fg) ---- */
+    --color-bg-canvas: var(--color-gray-50);
+    --color-bg-surface: var(--color-gray-0);
+    --color-bg-surface-raised: var(--color-gray-0);
+    --color-bg-muted: var(--color-gray-100);
+    --color-bg-hover: var(--color-gray-100);
+    --color-bg-active: var(--color-gray-200);
+    --color-bg-inverse: var(--color-gray-900);
+    --color-bg-backdrop: rgb(0 0 0 / 0.4);
+
+    --color-fg: var(--color-gray-900);
+    --color-fg-muted: var(--color-gray-600);
+    --color-fg-subtle: var(--color-gray-500);
+    --color-fg-disabled: var(--color-gray-400);
+    --color-fg-inverse: var(--color-gray-50);
+    --color-fg-link: var(--color-primary);
+
+    --color-border: var(--color-gray-200);
+    --color-border-strong: var(--color-gray-300);
+    --color-border-focus: var(--color-primary);
+
+    /* ---- Feedback ---- */
+    --color-danger: var(--color-red-500);
+    --color-danger-hover: var(--color-red-600);
+    --color-danger-active: var(--color-red-700);
+    --color-danger-subtle: var(--color-red-100);
+    --color-on-danger: var(--color-gray-0);
+
+    --color-warning: var(--color-amber-500);
+    --color-warning-subtle: var(--color-amber-100);
+
+    --color-success: var(--color-green-500);
+    --color-success-subtle: var(--color-green-100);
+
+    --color-info: var(--color-sky-500);
+    --color-info-subtle: var(--color-sky-100);
+
+    /* ---- Focus ring — one definition, every component uses it ---- */
+    --focus-ring: 0 0 0 3px color-mix(in srgb, var(--color-border-focus) 40%, transparent);
+
+    /* ---- Shape ---- */
+    --radius-control: var(--radius-md);   /* buttons, inputs, tabs */
+    --radius-surface: var(--radius-lg);   /* cards, dialogs, popovers */
+    --radius-pill: var(--radius-full);    /* badges, avatars, switches */
+
+    /* ---- Elevation ---- */
+    --shadow-surface: var(--shadow-sm);
+    --shadow-popover: var(--shadow-md);
+    --shadow-overlay: var(--shadow-lg);
+
+    /* ---- Type roles ---- */
+    --font-body: var(--font-family-sans);
+    --font-heading: var(--font-family-sans);
+    --font-weight-heading: var(--font-weight-semibold);
+
+    /* ---- Controls (density re-points these) ---- */
+    --control-height-sm: 2rem;
+    --control-height-md: 2.5rem;
+    --control-height-lg: 3rem;
+    --control-padding-x: var(--space-4);
+    --space-inset-surface: var(--space-5);   /* card / dialog / popover padding */
+    --space-stack-default: var(--space-4);
+
+    --transition-base: var(--duration-fast) ease-out;
+    --transition-overlay: var(--duration-normal) ease-out;
+
+    /*
+     * ---- Charts ----
+     * The one place this system needed NEW semantic roles (doc 06, step 1):
+     * --color-primary is one colour; a multi-series chart needs several that
+     * are distinguishable from each other, under colour-vision deficiency,
+     * in both themes. So these are not hand-picked. The hue ORDER and the
+     * step per mode were found by searching every ordering of the eight
+     * chromatic primitives and keeping only those that pass the dataviz
+     * validator (OKLCH lightness band, chroma floor, adjacent CVD ΔE ≥ 8,
+     * normal-vision ΔE ≥ 15, ≥ 3:1 on --color-bg-surface). See docs/08.
+     *
+     * Rules of use:
+     *   - Assign slots in order, by entity, never by rank. A filter that
+     *     removes series must not repaint the survivors.
+     *   - Never cycle past 8: fold into "Other" or facet.
+     *   - Slots 1–3 also pass ALL-pairs; scatter/bubble/maps cap at three.
+     *   - Status (--color-danger/warning/success) is never a series colour;
+     *     these steps are chosen so they don't collide with those tokens.
+     *   - Text never wears a series colour; labels use --color-fg-*.
+     */
+    --chart-1: var(--color-indigo-500);
+    --chart-2: var(--color-orange-500);
+    --chart-3: var(--color-teal-500);
+    --chart-4: var(--color-amber-600);
+    --chart-5: var(--color-rose-500);
+    --chart-6: var(--color-green-600);
+    --chart-7: var(--color-sky-600);
+    --chart-8: var(--color-red-600);
+
+    /* Emphasis form: one series in the accent, the rest recede to this. */
+    --chart-muted: var(--color-gray-300);
+    /* Sequential (magnitude): one hue, light → dark. Validated as an ordinal ramp. */
+    --chart-seq-1: var(--color-indigo-300);
+    --chart-seq-2: var(--color-indigo-500);
+    --chart-seq-3: var(--color-indigo-600);
+    --chart-seq-4: var(--color-indigo-700);
+    /* Diverging (polarity): cool pole ↔ neutral ↔ warm pole. */
+    --chart-div-neg: var(--color-indigo-500);
+    --chart-div-mid: var(--color-gray-100);
+    --chart-div-pos: var(--color-orange-500);
+    /* Chrome: recessive by design. Hairline grid one step off the surface. */
+    --chart-grid: var(--color-gray-100);
+    --chart-axis: var(--color-gray-300);
+    --chart-crosshair: var(--color-gray-400);
+    --chart-surface: var(--color-bg-surface);
+  }
+
+  /* ---- Dark theme: same names, different targets ---- */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --color-primary: var(--color-indigo-300);
+    --color-primary-hover: var(--color-indigo-100);
+    --color-primary-active: var(--color-indigo-500);
+    --color-primary-subtle: color-mix(in srgb, var(--color-indigo-500) 25%, transparent);
+    --color-primary-subtle-hover: color-mix(in srgb, var(--color-indigo-500) 35%, transparent);
+    --color-on-primary: var(--color-gray-1000);
+
+    --color-secondary: var(--color-teal-300);
+    --color-secondary-hover: var(--color-teal-100);
+    --color-secondary-active: var(--color-teal-500);
+    --color-secondary-subtle: color-mix(in srgb, var(--color-teal-500) 25%, transparent);
+    --color-on-secondary: var(--color-gray-1000);
+
+    --color-tertiary: var(--color-amber-300);
+    --color-tertiary-hover: var(--color-amber-100);
+    --color-tertiary-active: var(--color-amber-500);
+    --color-tertiary-subtle: color-mix(in srgb, var(--color-amber-500) 25%, transparent);
+    --color-on-tertiary: var(--color-gray-1000);
+
+    --color-bg-canvas: var(--color-gray-1000);
+    --color-bg-surface: var(--color-gray-900);
+    --color-bg-surface-raised: var(--color-gray-800);
+    --color-bg-muted: var(--color-gray-800);
+    --color-bg-hover: var(--color-gray-800);
+    --color-bg-active: var(--color-gray-700);
+    --color-bg-inverse: var(--color-gray-50);
+    --color-bg-backdrop: rgb(0 0 0 / 0.6);
+
+    --color-fg: var(--color-gray-50);
+    --color-fg-muted: var(--color-gray-300);
+    --color-fg-subtle: var(--color-gray-400);
+    --color-fg-disabled: var(--color-gray-600);
+    --color-fg-inverse: var(--color-gray-900);
+
+    --color-border: var(--color-gray-700);
+    --color-border-strong: var(--color-gray-600);
+
+    --color-danger: var(--color-red-300);
+    --color-danger-hover: var(--color-red-100);
+    --color-danger-active: var(--color-red-500);
+    --color-danger-subtle: color-mix(in srgb, var(--color-red-500) 25%, transparent);
+    --color-on-danger: var(--color-gray-1000);
+    --color-warning: var(--color-amber-300);
+    --color-warning-subtle: color-mix(in srgb, var(--color-amber-500) 25%, transparent);
+    --color-success: var(--color-green-300);
+    --color-success-subtle: color-mix(in srgb, var(--color-green-500) 25%, transparent);
+    --color-info: var(--color-sky-300);
+    --color-info-subtle: color-mix(in srgb, var(--color-sky-500) 25%, transparent);
+
+    --shadow-surface: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-popover: 0 4px 16px rgb(0 0 0 / 0.5);
+    --shadow-overlay: 0 12px 32px rgb(0 0 0 / 0.6);
+
+    /*
+     * Charts, dark: the SAME hue order, re-stepped for the dark surface and
+     * validated separately (dark is selected, never an automatic flip).
+     * Six of eight slots keep their step; sky and red move to 500 because
+     * the 600s fall below 3:1 on gray-900.
+     */
+    --chart-7: var(--color-sky-500);
+    --chart-8: var(--color-red-500);
+    --chart-muted: var(--color-gray-600);
+    /* Dark ramp starts at 600: indigo-700 is 1.9:1 on this surface. */
+    --chart-seq-1: var(--color-indigo-600);
+    --chart-seq-2: var(--color-indigo-500);
+    --chart-seq-3: var(--color-indigo-300);
+    --chart-seq-4: var(--color-indigo-100);
+    --chart-div-mid: var(--color-gray-800);
+    --chart-grid: var(--color-gray-800);
+    --chart-axis: var(--color-gray-700);
+    --chart-crosshair: var(--color-gray-500);
+  }
+
+  /*
+   * ---- Density ----
+   * Same mechanism as themes: re-point the control tokens. Scoped to any
+   * subtree, so a data table can be compact inside a comfortable page.
+   */
+  [data-density="compact"] {
+    --control-height-sm: 1.75rem;
+    --control-height-md: 2.125rem;
+    --control-height-lg: 2.5rem;
+    --control-padding-x: var(--space-3);
+    --space-inset-surface: var(--space-4);
+    --space-stack-default: var(--space-3);
+  }
+
+  [data-density="spacious"] {
+    --control-height-sm: 2.25rem;
+    --control-height-md: 2.75rem;
+    --control-height-lg: 3.25rem;
+    --control-padding-x: var(--space-5);
+    --space-inset-surface: var(--space-6);
+    --space-stack-default: var(--space-5);
+  }
+}
+
+/*
+ * Game roles: Star Defender's own names on top of the lab, like Job Tracker's
+ * --stage-*. Sprites read ONLY these (the canvas script resolves them once), so
+ * every colour on screen comes from the lab palette. Dark theme only: it's space.
+ */
+@layer tokens {
+  :root {
+    --game-sky: color-mix(in srgb, var(--color-indigo-700) 35%, var(--color-bg-canvas));
+    --game-ship: var(--color-indigo-100);
+    --game-glow: var(--color-primary);
+    --game-shot: var(--color-secondary);
+    --game-enemy: var(--color-success);
+    --game-enemy-tough: var(--color-rose-300);
+    --game-enemy-shot: var(--color-orange-300);
+    --game-powerup: var(--color-tertiary);
+    --game-flame: var(--color-orange-500);
+    --game-hp-track: var(--color-border);
+    --game-star: var(--color-fg);
+  }
+}
+@layer base {
+  html,body{margin:0;height:100%;background:var(--color-bg-canvas);overflow:hidden;font-family:var(--font-body);color:var(--color-fg);touch-action:none;user-select:none}
+  canvas{display:block;margin:0 auto;background:radial-gradient(ellipse at top,var(--game-sky) 0%,var(--color-bg-canvas) 70%)}
+}
+@layer components {
+  #hud{position:fixed;top:var(--space-3);left:0;right:0;display:flex;justify-content:space-between;padding:0 var(--space-4);font-weight:var(--font-weight-semibold);font-size:var(--font-size-md);font-variant-numeric:tabular-nums;pointer-events:none;text-shadow:0 0 6px var(--game-glow)}
+  #overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:color-mix(in srgb,var(--color-bg-canvas) 70%,transparent);padding:var(--space-4)}
+  #overlay h1{font-family:var(--font-heading);font-weight:var(--font-weight-bold);font-size:clamp(32px,8vw,64px);margin:0 0 var(--space-2);letter-spacing:2px;background:linear-gradient(90deg,var(--color-primary),var(--color-secondary));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #overlay p{margin:var(--space-1) 0;color:var(--color-fg-muted);max-width:420px}
+  #overlay #best{color:var(--color-fg)}
+  button{margin-top:var(--space-5);font:inherit;font-size:var(--font-size-lg);font-weight:var(--font-weight-bold);min-height:var(--control-height-lg);padding:0 var(--space-8);border:0;border-radius:var(--radius-control);color:var(--color-on-primary);background:var(--color-primary);cursor:pointer;transition:background-color var(--transition-base)}
+  button:hover{background:var(--color-primary-hover)}
+  button:active{background:var(--color-primary-active)}
+  button:focus-visible{outline:none;box-shadow:var(--focus-ring)}
   .hidden{display:none!important}
+}
 </style>
 </head>
 <body>
@@ -29,6 +418,13 @@
 (() => {
   const cvs = document.getElementById('c'), ctx = cvs.getContext('2d');
   const $ = id => document.getElementById(id);
+  // Sprite colours: the --game-* roles (design-tokens-lab), resolved once to concrete colours.
+  const css = getComputedStyle(document.documentElement);
+  const role = name => css.getPropertyValue(`--game-${name}`).trim();
+  const C = { ship: role('ship'), glow: role('glow'), shot: role('shot'), enemy: role('enemy'), tough: role('enemy-tough'),
+              enemyShot: role('enemy-shot'), powerup: role('powerup'), flame: role('flame'), hpTrack: role('hp-track'),
+              star: role('star'), bg: css.getPropertyValue('--color-bg-canvas').trim(), fg: css.getPropertyValue('--color-fg').trim() };
+  const FONT = css.getPropertyValue('--font-body').trim();
   let W, H;
   function resize(){ W = cvs.width = Math.min(innerWidth, 720); H = cvs.height = innerHeight; }
   addEventListener('resize', resize); resize();
@@ -116,7 +512,7 @@
     // collisions
     for (const b of bullets) for (const e of enemies) if (!b.dead && e.hp > 0 && hit(b,e)){
       b.dead = true; e.hp--;
-      if (e.hp <= 0){ score += e.kind ? 50 : 10; burst(e.x,e.y, e.kind ? '#f6c' : '#4cf'); beep(180,.15,'sawtooth',.05);
+      if (e.hp <= 0){ score += e.kind ? 50 : 10; burst(e.x,e.y, e.kind ? C.tough : C.enemy); beep(180,.15,'sawtooth',.05);
         if (Math.random() < .06) powerups.push({x:e.x,y:e.y,w:18,h:18}); }
       else beep(400,.04);
     }
@@ -127,7 +523,7 @@
     powerups = powerups.filter(p => { if (hit(p,player)){ rapid = 8; beep(1200,.2,'triangle',.06); return false } return p.y < H+20; });
 
     if (!inv) for (const b of eBullets) if (hit(b, {x:player.x,y:player.y,w:24,h:22})){
-      b.y = H+100; lives--; inv = 1.5; shake = .4; burst(player.x,player.y,'#fa4',24); beep(90,.4,'sawtooth',.08); break;
+      b.y = H+100; lives--; inv = 1.5; shake = .4; burst(player.x,player.y,C.flame,24); beep(90,.4,'sawtooth',.08); break;
     }
 
     parts.forEach(p => { p.x+=p.vx*dt; p.y+=p.vy*dt; p.life-=dt; });
@@ -142,20 +538,20 @@
 
   function drawShip(x, y){
     ctx.save(); ctx.translate(x,y);
-    ctx.shadowColor = '#4cf'; ctx.shadowBlur = 14; ctx.fillStyle = '#bfe9ff';
+    ctx.shadowColor = C.glow; ctx.shadowBlur = 14; ctx.fillStyle = C.ship;
     ctx.beginPath(); ctx.moveTo(0,-18); ctx.lineTo(16,14); ctx.lineTo(0,7); ctx.lineTo(-16,14); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = `hsl(${30+Math.random()*30},100%,60%)`; ctx.shadowColor = '#fa4';
+    ctx.globalAlpha = .7 + Math.random()*.3; ctx.fillStyle = C.flame; ctx.shadowColor = C.flame;
     ctx.beginPath(); ctx.moveTo(-5,10); ctx.lineTo(0,20+Math.random()*8); ctx.lineTo(5,10); ctx.fill();
     ctx.restore();
   }
 
   function drawEnemy(e){
     ctx.save(); ctx.translate(e.x,e.y);
-    const c = e.kind ? '#f6c' : '#7f6';
+    const c = e.kind ? C.tough : C.enemy;
     ctx.shadowColor = c; ctx.shadowBlur = 12; ctx.fillStyle = c;
     ctx.beginPath(); ctx.moveTo(-14,-8); ctx.lineTo(14,-8); ctx.lineTo(10,6); ctx.lineTo(4,2); ctx.lineTo(0,10); ctx.lineTo(-4,2); ctx.lineTo(-10,6); ctx.closePath(); ctx.fill();
-    ctx.fillStyle = '#05060f'; ctx.fillRect(-7,-4,4,4); ctx.fillRect(3,-4,4,4);
-    if (e.max > 1){ ctx.shadowBlur=0; ctx.fillStyle='#333'; ctx.fillRect(-14,-16,28,3); ctx.fillStyle=c; ctx.fillRect(-14,-16,28*e.hp/e.max,3); }
+    ctx.fillStyle = C.bg; ctx.fillRect(-7,-4,4,4); ctx.fillRect(3,-4,4,4);
+    if (e.max > 1){ ctx.shadowBlur=0; ctx.fillStyle=C.hpTrack; ctx.fillRect(-14,-16,28,3); ctx.fillStyle=c; ctx.fillRect(-14,-16,28*e.hp/e.max,3); }
     ctx.restore();
   }
 
@@ -165,21 +561,22 @@
     if (shake) ctx.translate((Math.random()-.5)*12*shake/.4, (Math.random()-.5)*12*shake/.4);
     // stars
     for (const s of stars){ s.y += s.s*40*dt; if (s.y > H) { s.y = 0; s.x = Math.random()*W; }
-      ctx.fillStyle = `rgba(255,255,255,${s.s/2.5})`; ctx.fillRect(s.x % W, s.y, s.s, s.s); }
+      ctx.globalAlpha = s.s/2.5; ctx.fillStyle = C.star; ctx.fillRect(s.x % W, s.y, s.s, s.s); }
+    ctx.globalAlpha = 1;
     if (state === 'menu') return;
     ctx.shadowBlur = 10;
-    ctx.fillStyle = '#4cf'; ctx.shadowColor = '#4cf';
+    ctx.fillStyle = C.shot; ctx.shadowColor = C.shot;
     bullets.forEach(b => ctx.fillRect(b.x-b.w/2, b.y-b.h/2, b.w, b.h));
-    ctx.fillStyle = '#f84'; ctx.shadowColor = '#f84';
+    ctx.fillStyle = C.enemyShot; ctx.shadowColor = C.enemyShot;
     eBullets.forEach(b => { ctx.beginPath(); ctx.arc(b.x,b.y,4,0,6.28); ctx.fill(); });
-    ctx.fillStyle = '#ff4'; ctx.shadowColor = '#ff4';
-    powerups.forEach(p => { ctx.beginPath(); ctx.arc(p.x,p.y,9,0,6.28); ctx.fill(); ctx.fillStyle='#05060f'; ctx.font='bold 12px sans-serif'; ctx.textAlign='center'; ctx.fillText('R',p.x,p.y+4); ctx.fillStyle='#ff4'; });
+    ctx.fillStyle = C.powerup; ctx.shadowColor = C.powerup;
+    powerups.forEach(p => { ctx.beginPath(); ctx.arc(p.x,p.y,9,0,6.28); ctx.fill(); ctx.fillStyle=C.bg; ctx.font=`bold 12px ${FONT}`; ctx.textAlign='center'; ctx.fillText('R',p.x,p.y+4); ctx.fillStyle=C.powerup; });
     ctx.shadowBlur = 0;
     enemies.forEach(drawEnemy);
     if (!inv || Math.floor(inv*10)%2) drawShip(player.x, player.y);
     parts.forEach(p => { ctx.globalAlpha = p.life/.6; ctx.fillStyle = p.color; ctx.fillRect(p.x,p.y,3,3); });
     ctx.globalAlpha = 1;
-    if (state === 'paused'){ ctx.fillStyle='#fff'; ctx.font='bold 36px sans-serif'; ctx.textAlign='center'; ctx.fillText('PAUSED', W/2, H/2); }
+    if (state === 'paused'){ ctx.fillStyle=C.fg; ctx.font=`bold 36px ${FONT}`; ctx.textAlign='center'; ctx.fillText('PAUSED', W/2, H/2); }
   }
 
   let last = performance.now();
