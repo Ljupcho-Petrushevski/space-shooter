@@ -367,19 +367,38 @@
 }
 
 /*
+ * "Arcade": Star Defender's brand, in the portfolio's terminal style (lab
+ * neutrals, flat fills, small radii, one accent) with orange as the accent.
+ * Dark only, so it overrides the dark theme's action colours directly.
+ */
+@layer tokens {
+  :root[data-theme="dark"] {
+    --color-primary: var(--color-orange-300);
+    --color-primary-hover: var(--color-orange-100);
+    --color-primary-active: var(--color-orange-500);
+    --color-primary-subtle: color-mix(in srgb, var(--color-orange-500) 22%, transparent);
+    --color-primary-subtle-hover: color-mix(in srgb, var(--color-orange-500) 32%, transparent);
+    --color-on-primary: var(--color-gray-1000);
+
+    --radius-control: var(--radius-sm);
+    --radius-surface: var(--radius-md);
+  }
+}
+
+/*
  * Game roles: Star Defender's own names on top of the lab, like Job Tracker's
  * --stage-*. Sprites read ONLY these (the canvas script resolves them once), so
  * every colour on screen comes from the lab palette. Dark theme only: it's space.
  */
 @layer tokens {
   :root {
-    --game-sky: color-mix(in srgb, var(--color-indigo-700) 35%, var(--color-bg-canvas));
-    --game-ship: var(--color-indigo-100);
+    --game-sky: var(--color-gray-900);
+    --game-ship: var(--color-gray-100);
     --game-glow: var(--color-primary);
-    --game-shot: var(--color-secondary);
-    --game-enemy: var(--color-success);
+    --game-shot: var(--color-primary);
+    --game-enemy: var(--color-sky-300);
     --game-enemy-tough: var(--color-rose-300);
-    --game-enemy-shot: var(--color-orange-300);
+    --game-enemy-shot: var(--color-red-300);
     --game-powerup: var(--color-tertiary);
     --game-flame: var(--color-orange-500);
     --game-hp-track: var(--color-border);
@@ -393,7 +412,7 @@
 @layer components {
   #hud{position:fixed;top:var(--space-3);left:0;right:0;display:flex;justify-content:space-between;padding:0 var(--space-4);font-weight:var(--font-weight-semibold);font-size:var(--font-size-md);font-variant-numeric:tabular-nums;pointer-events:none;text-shadow:0 0 6px var(--game-glow)}
   #overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:color-mix(in srgb,var(--color-bg-canvas) 70%,transparent);padding:var(--space-4)}
-  #overlay h1{font-family:var(--font-heading);font-weight:var(--font-weight-bold);font-size:clamp(32px,8vw,64px);margin:0 0 var(--space-2);letter-spacing:2px;background:linear-gradient(90deg,var(--color-primary),var(--color-secondary));-webkit-background-clip:text;background-clip:text;color:transparent}
+  #overlay h1{font-family:var(--font-heading);font-weight:var(--font-weight-bold);font-size:clamp(32px,8vw,64px);margin:0 0 var(--space-2);letter-spacing:2px;color:var(--color-primary)}
   #overlay p{margin:var(--space-1) 0;color:var(--color-fg-muted);max-width:420px}
   #overlay #best{color:var(--color-fg)}
   button{margin-top:var(--space-5);font:inherit;font-size:var(--font-size-lg);font-weight:var(--font-weight-bold);min-height:var(--control-height-lg);padding:0 var(--space-8);border:0;border-radius:var(--radius-control);color:var(--color-on-primary);background:var(--color-primary);cursor:pointer;transition:background-color var(--transition-base)}
